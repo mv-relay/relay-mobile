@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>html { font-size: 12px; font-family: Arial, Helvetica, sans-serif; }</style>
+    <title></title>    
+    
+    
+	<link href="styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="styles/kendo.common.core.min.css" rel="stylesheet"/>    
+    <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    
+    
+    <script src="js/jquery-1.9.1.min.js"></script>    
+    <script src="js/kendo.core.min.js"></script>
+    <script src="js/kendo.data.min.js"></script>
+    <script src="js/kendo.binder.js"></script>
+    <script src="js/kendo.ui.core.js"></script>    
+    <script src="js/kendo.mobile.navbar.js"></script>
+    <script src="js/kendo.mobile.loader.js"></script>
+    <script src="js/kendo.mobile.application.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script>
+    	
+    	kendo.data.binders.background = kendo.data.Binder.extend(
+			{		
+			init: function(element, bindings, options) 
+				{      
+            	kendo.data.Binder.fn.init.call(this, element, bindings, options);
+            	var that = this;            
+            	$(that.element).on("change", function() 
+            		{
+               	 	that.change(); 
+            		});
+        		},
+        	refresh: function() 
+        		{        		
+            	var value = this.bindings["background"].get();  
+            	  
+            	 try{        	
+            	if(value.substring(0,3)=="url")
+                	$(this.element).css("background-image",value);
+                else                            
+                	$(this.element).css("background-image","url('"+value+"')");
+                }catch(e){}
+            	},
+        	change: function() 
+        		{
+            	var value =  $(this.element).css("background-image");
+            	            
+            	if (!isNaN(value)) 
+                	this.bindings["background"].set(value); //update the View-Model
+            
+        		}            	
+       		});
+    	
+    </script>
+    <style>
+    	
+.button.error
+	{
+	position: absolute;
+	bottom: -20px;
+	height: 20px;
+	width: 220px;
+	}
+.loading_wall
+	{
+	display:none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: rgba(0,0,0,.2);
+	z-index: 1;
+	}
+.sheet .loading	
+	{
+	background-image: url('http://www.macumba.eu/img/ajax-loader.gif');
+	background-position: -10px;
+	background-repeat: no-repeat;
+	position:relative;
+	height: 13px;
+	width: 260px;
+	background-size: 279px 21px;
+	display:none;
+	}
+#community	.close
+	{
+	position: absolute;
+	right: -33px;
+	top: -33px;
+	border: solid 1px rgba(255,255,255,.7);
+	width: 30px;
+	height: 30px;
+	border-radius: 50px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 22px;
+	color: rgba(255,255,255,.6);
+	margin-left: 119px;
+	}
+#v
+	{
+	width:220px;
+	height:200px;
+	}
+#qr-canvas 
+	{
+	display: none;
+	}
+#webcam
+	{
+	display: block;
+	position: absolute;
+	left: 398px;
+	top: 311px;
+	z-index: 10000000000;
+	width: 220px;
+	height: 202px;
+	}
+#outdiv 
+	{
+	
+	}	
+
+form.box .row input[type=text], form.box .row input[type=password] 
+	{
+	box-sizing: border-box;
+	}
+
+/*--BOX*/
+
+
+form.box
+	{
+	padding: 20px;
+	width: 260px;	
+	position:relative;		
+	background-color: white;
+	border-radius: 2px;
+	z-index: 10000000;
+	padding-bottom:10px;
+	padding-top: 65px;
+	font-family: helvetica;
+	box-sizing: border-box;		
+	}
+	
+form.box .logo 
+	{
+	background-image: url(img/logologin.png);	
+	background-repeat: no-repeat;
+	position: absolute;
+	top: -45px;
+	height: 95px;
+	width: 95px;
+	left: 50%;
+	z-index: 1;
+	border-radius: 100px;
+	border: solid 2px white;
+	margin-left: -48px;
+	}
+/*--/BOX*/
+
+/*--ROW*/
+form.box .row
+	{
+	width: 100%;
+	padding:0;
+	padding-left: 0;
+	padding-right: 0;
+	clear: both;
+	color:gray;
+	position:relative;
+	margin-left: 0px;
+	margin-right: 0px;
+	}
+form.box .row label
+	{
+	display: none;
+	}
+form.box .row input[type=checkbox]
+	{
+	float: left;
+	margin-right: 10px;
+	margin-left: 0;
+	}
+form.box .row input[type=text],form.box .row input[type=password]
+	{
+	font: inherit;
+	margin: 0;
+	padding: 2px 0.3em;
+	width: 100%;
+	margin-left: 0px;
+	height: 33px;
+	margin-bottom: 5px;
+	border-radius: 3px;
+	border: solid 1px silver;
+	font-size: 14px;
+	}
+/*--/ROW*/
+
+
+/*--BUTTON*/
+
+form.box .button
+	{
+	text-decoration:none;
+	color:white;
+	}
+form.box .button > div 
+	{
+	margin-bottom: 10px;
+	width: 100%;
+	left: 26px;
+	text-align: center;
+	height: 40px;
+	border-radius: 3px;
+	line-height: 40px;
+	background-color: silver;
+	text-decoration: none;
+	margin-top: 10px;
+	}
+/*--/BUTTON*/
+form.box  .button.register > div
+	{
+	background-color:#278fc6;
+	}
+form.box .button.fb > div
+	{
+	background:#3c5a9a;
+	
+	background-repeat: no-repeat;
+	background-position:12px 8px;
+	}
+
+form.box .button.qr > div
+	{
+	background:brown;
+	
+	background-repeat: no-repeat;
+	background-position:12px 8px;
+	}
+form.box .button.login > div
+	{
+	background:darkgreen;
+	
+	background-repeat: no-repeat;
+	background-position:12px 8px;
+	}
+	
+	
+/*--BANDA*/
+form.box .banda 
+	{
+	background: #ECECEC;
+	margin-left: -20px;
+	margin-right: -20px;
+	min-height: 20px;
+	text-align: center;
+	width: initial;
+	border-top: solid 1px silver;
+	border-bottom: solid 1px silver;
+	margin-bottom: 20px;
+	font-size:12px;
+	}
+/*--BANDA*/
+/* COLORI DI CAMPO OBBLIGATORIO per mail e psw
+	background-color:#fad2d3;
+	color:#ee353b;
+	border:solid 1px #ee353b;
+*/
+
+form.box .banda.card
+	{
+	margin-top: 20px;
+	background-color:#deeff7;
+	color:#1e9ad0;
+	border-top:solid 1px #1e9ad0;
+	border-bottom:solid 1px #1e9ad0;
+	height: 50px;
+	padding-left: 0;
+	width: initial;
+	text-align: center;
+	font-size: 12px;
+	vertical-align: bottom;
+	
+	background-repeat: no-repeat;
+	background-position: 137px 3px;
+	line-height: 71px;
+	}
+form.box .banda.card a
+	{
+	color: #1e9ad0;
+	}
+form.box .banda.account 
+	{
+	color: black;
+	border: solid 1px white;
+	text-align: center;
+	font-size: 12px;
+	margin-bottom: 3px;
+	background: white;
+	}
+form.box .banda.account a
+	{
+	color:black;
+	}
+form.box .button.attivita 
+	{	
+	position: absolute;
+	left: 0;
+	bottom: -55px;
+	top:initial;
+	}
+form.box .button.attivita > div
+	{
+	background-color: #343434;
+	line-height: 25px;
+	vertical-align: middle;
+	border: solid 1px white;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: initial;
+	font-size: 12px;
+	height: 25px;
+	}
+form.box a
+	{
+	text-decoration:underline;
+	cursor:pointer;
+	} 
+
+form.box .row.p 
+	{
+	font-size: 12px;
+	line-height: 14px;
+	text-align: center;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	}
+form.box .termini
+	{
+	font-size:10px;
+	}
+/*
+#community
+	{		
+	position: fixed;	
+	top: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	z-index:100000000;	
+	display:block;
+	bottom:100%;	
+	}*/
+#community .sheet
+	{
+	display:none;
+	position:absolute;
+	left:50%;
+	
+	margin-left: -130px;
+	}
+form.box .data input
+	{
+	width:100px;	
+	}
+form.box .data
+	{
+	float: left;
+	width: 67px;
+	margin-right: 9px;
+	clear: initial;
+	}
+form.box .data.anno
+	{
+	margin-right: 0;	
+	}
+@keyframes down
+	{
+	from {bottom: 100%;}
+	to {bottom: 0;}
+	}
+@-webkit-keyframes down
+	{
+	from {bottom: 100%;}
+	to {bottom: 0;}
+	}
+@keyframes up
+	{
+	to {bottom: 100%;}
+	from {bottom: 0;}
+	}
+@-webkit-keyframes up
+	{
+	to {bottom: 100%;}
+	from {bottom: 0;}
+	}
+@keyframes show
+	{
+	from {opacity: 0;}
+	to {opacity: 1;}
+	}
+@-webkit-keyframes show
+	{
+	from {opacity: 0;}
+	to {opacity: 1;}
+	}
+@keyframes hide
+	{
+	to {opacity: 0;}
+	from {opacity: 1;}
+	}
+@-webkit-keyframes hide
+	{
+	to {opacity: 0;}
+	from {opacity: 1;}
+	}
+	
+
+#login form.box
+	{
+	//height: 380px;	
+	
+	}
+#register form.box
+	{
+	//height: 292px;	
+	top:initial;
+	
+	}
+#userData form.box
+	{
+	height:391px;
+	
+	top:initial;
+	margin-bottom: 111px;
+	}
+#userData .qr
+	{
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	background-color: white;
+	}
+
+
+	
+#community.show
+	{
+	animation: down 2s;
+	-webkit-animation:down 2s;		
+	-webkit-animation-fill-mode: forwards;
+	}
+
+#community.hide
+	{
+	animation: up 1s;
+	-webkit-animation:up 1s;			
+	-webkit-animation-fill-mode: forwards;
+	}
+.blur	
+	{
+	-webkit-filter:grayscale(1);
+	margin-top:14px;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	}
+.opa{
+	background: rgba(0,0,0,.7);
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index:1000;
+	}
+
+#community .wall
+	{
+	display: block;
+	opacity: 1;
+	position: fixed;	
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 100%;
+	z-index: 100000;
+	background: rgba(0,0,0,.7);
+	-webkit-transition-duration:2s;
+	-webkit-transform: translateZ(0);
+	}
+	
+.community	
+ 	{
+	color: silver;
+	position: absolute;
+	right: 100px;
+	top: 12px;
+	background-color: rgba(0,0,0,.7);
+	margin-top: -6px;
+	z-index: 1000000;
+	}
+.community  div
+	{
+	border: solid 1px white;
+	border-radius: 3px;
+	padding: 4px;
+	float: left;
+	margin:5px;
+	}
+
+
+form.box .row.genere label 
+	{
+	display: block;
+	text-align: left;
+	width: 83px;
+	float:right;
+	}
+form.box .option 
+	{
+	width: 104px;
+	float: left;
+	line-height: 21px;
+	text-align: left;
+	}
+form.box .tooltip
+	{
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: solid 1px red;
+	background-color: rgb(244,213,212);
+	right: 0;
+	bottom: 5px;
+	border-radius: 2px;
+	text-align: left;
+	color: red;
+	line-height: 33px;
+	padding-left: 8px;
+	overflow:hidden;
+	display:none;
+	opacity:1;
+	}
+form.box.submitted .tooltip
+	{
+	display:block;
+	}
+#userData .box
+	{
+	display:none;
+	}
+
+			#community #userData
+				{
+				position: absolute;
+				left: 10px;
+				margin-left: 0;
+				height: 800px;
+				width: 90%;
+				}
+			#userData UL.menu
+				{
+				position: absolute;
+				left: 0;
+				top: 0;
+				padding: 20px;
+				color: white;
+				width: 140px;
+				}
+			
+			#userData UL.menu LI.active,#userData UL.menu LI:hover	
+				{
+				background: rgba(255,255,255,.8);
+				}
+			#userData UL.menu LI.active h2,#userData UL.menu LI:hover h2	
+				{
+				color:black;
+				}
+			#userData UL.menu LI.active a,#userData UL.menu LI:hover a		
+				{
+				color:black;
+				}
+			#userData .orders ul 
+				{
+				color: black;
+				}
+			#userData .orders li 
+				{
+				position: relative;
+				
+				border-bottom: solid 1px silver;
+				line-height: 32px;
+				}
+			#userData .orders li.title
+				{
+				height: 32px;				
+				}
+			#userData .orders li .rows 
+				{
+				padding-left: 24px;
+				font-size: 10px;
+				}
+			#userData .orders li .date
+				{
+				margin-left: 12px;
+				}
+			#userData .orders li .total 
+				{
+				position: absolute;
+				left: 424px;
+				top: 0;
+				width: 62px;
+				text-align: right;
+				}
+			#userData .orders UL.rows
+				{			
+				height:0;	
+				overflow: hidden;
+				-webkit-transition-duration:2s;
+				}
+			#userData UL.menu LI
+				{
+				height: 31px;
+				color: white;
+				border-bottom: solid 1px silver;
+				padding-top: 17px;
+				padding-left: 12px;
+				-webkit-transition-duration:2s;
+				}				
+			#userData UL.menu LI a
+				{
+				color:white;
+				-webkit-transition-duration:2s;
+				}	
+			#userData UL.menu h2
+				{
+				font-size: 18px;
+				-webkit-transition-duration:2s;
+				}
+			#userData li i 
+				{
+				margin-right: 10px;
+				}
+			#userData .box 
+				{								
+				border-radius: 4px;
+				padding: 20px;
+				color: white;
+				background-color: rgba(255,255,255,.8);
+				z-index: 1000000;
+				position: absolute;
+				left: 160px;
+				right: 10px;
+				top: 10px;
+				bottom: 10px;
+				}
+			#userData .picture
+				{
+				background-color: white;
+				float: left;
+				margin-right: 20px;
+				margin-bottom: 20px;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				width: 150px;
+				height: 150px;
+				background-image: url('http://png-1.findicons.com/files/icons/1072/face_avatars/300/i04.png');
+				background-size: contain;
+				border: solid 1px black;
+				border-radius:8px;
+				}
+			#userData .data 
+				{
+				height: 42px;
+				border-bottom: solid 1px rgba(0,0,0,.2);
+				line-height: 42px;
+				vertical-align: bottom;
+				color: black;
+				font-size: 15px;
+				padding-left: 16px;
+				}
+			#userData .orders .iter b	
+				{
+				float:left;
+				}
+			#userData .orders .iter .step.pagato
+				{
+				background:darkred;
+				color:white;				
+				}
+			#userData .orders .iter .step.spedito
+				{
+				background: gold;
+				color: black;				
+				}
+			#userData .orders .iter .step.consegnato
+				{
+				background:green;
+				color:white;
+				}
+			#userData .orders .iter .step
+				{
+				color:silver;
+				border: solid 1px silver;
+				border-radius: 4px;
+				padding: 2px;
+				background-color: white;
+				height: 15px;
+				line-height: 15px;
+				float: left;
+				margin-right: 2px;
+				margin-left: 2px;
+				width: 70px;
+				text-align: center;
+				}
+			#userData .orders .iter > .step[active=true]
+				{
+				color:black;
+				border-color:black;
+				}
+			#userData .orders .iter	
+				{
+				position: absolute;
+				left: 177px;
+				height: 15px;
+				line-height: 22px;				
+				top: 6px;
+				}
+			.row.qr
+				{
+				height: 203px;
+				border: solid 1px silver;
+				border-radius: 4px;
+				margin-bottom: 15px;
+				}
+	
+		#userData .qrhelparrow
+			{
+			width: 0;
+			height: 0;
+			border-top: 60px solid transparent;
+			border-bottom: 60px solid transparent;
+			border-left: 60px solid rgba(0,0,0,.3);
+			position: absolute;
+			bottom: 28px;
+			right: 161px;
+			}
+		#userData .qrhelp
+			{
+			height: 85px;
+			position: absolute;
+			bottom: 28px;
+			width: 130px;
+			right: 221px;
+			color: black;
+			background-color: rgba(0,0,0,.3);
+			padding: 23px;
+			color: white;
+			font-size: 15px;
+			text-align: right;
+			padding-top: 12px;
+			vertical-align: middle;
+			line-height: 19px;
+			}
+		#userData LI .importo
+			{
+			position: absolute;
+			left: 423px;
+			}
+	
+    	
+			#community #userData
+				{
+				position: absolute;
+				left: 10px;
+				margin-left: 0;
+				height: 800px;
+				width: 90%;
+				}
+			#userData UL.menu
+				{
+				position: absolute;
+				left: 0;
+				top: 0;
+				padding: 20px;
+				color: white;
+				width: 140px;
+				}
+			
+			#userData UL.menu LI.active,#userData UL.menu LI:hover	
+				{
+				background: rgba(255,255,255,.8);
+				}
+			#userData UL.menu LI.active h2,#userData UL.menu LI:hover h2	
+				{
+				color:black;
+				}
+			#userData UL.menu LI.active a,#userData UL.menu LI:hover a		
+				{
+				color:black;
+				}
+			#userData .orders ul 
+				{
+				color: black;
+				}
+			#userData .orders li 
+				{
+				position: relative;
+				
+				border-bottom: solid 1px silver;
+				line-height: 32px;
+				}
+			#userData .orders li.title
+				{
+				height: 32px;				
+				}
+			#userData .orders li .rows 
+				{
+				padding-left: 24px;
+				font-size: 10px;
+				}
+			#userData .orders li .date
+				{
+				margin-left: 12px;
+				}
+			#userData .orders li .total 
+				{
+				position: absolute;
+				left: 424px;
+				top: 0;
+				width: 62px;
+				text-align: right;
+				}
+			#userData .orders UL.rows
+				{			
+				height:0;	
+				overflow: hidden;
+				-webkit-transition-duration:2s;
+				}
+			#userData UL.menu LI
+				{
+				height: 31px;
+				color: white;
+				border-bottom: solid 1px silver;
+				padding-top: 17px;
+				padding-left: 12px;
+				-webkit-transition-duration:2s;
+				}				
+			#userData UL.menu LI a
+				{
+				color:white;
+				-webkit-transition-duration:2s;
+				}	
+			#userData UL.menu h2
+				{
+				font-size: 18px;
+				-webkit-transition-duration:2s;
+				}
+			#userData li i 
+				{
+				margin-right: 10px;
+				}
+			#userData .box 
+				{								
+				border-radius: 4px;
+				padding: 20px;
+				color: white;
+				background-color: rgba(255,255,255,.8);
+				z-index: 1000000;
+				position: absolute;
+				left: 160px;
+				right: 10px;
+				top: 10px;
+				bottom: 10px;
+				}
+			#userData .picture
+				{
+				background-color: white;
+				float: left;
+				margin-right: 20px;
+				margin-bottom: 20px;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				width: 150px;
+				height: 150px;
+				background-image: url('http://png-1.findicons.com/files/icons/1072/face_avatars/300/i04.png');
+				background-size: contain;
+				border: solid 1px black;
+				border-radius:8px;
+				}
+			#userData .data 
+				{
+				height: 42px;
+				border-bottom: solid 1px rgba(0,0,0,.2);
+				line-height: 42px;
+				vertical-align: bottom;
+				color: black;
+				font-size: 15px;
+				padding-left: 16px;
+				}
+			#userData .orders .iter b	
+				{
+				float:left;
+				}
+			#userData .orders .iter .step.pagato
+				{
+				background:darkred;
+				color:white;				
+				}
+			#userData .orders .iter .step.spedito
+				{
+				background: gold;
+				color: black;				
+				}
+			#userData .orders .iter .step.consegnato
+				{
+				background:green;
+				color:white;
+				}
+			#userData .orders .iter .step
+				{
+				color:silver;
+				border: solid 1px silver;
+				border-radius: 4px;
+				padding: 2px;
+				background-color: white;
+				height: 15px;
+				line-height: 15px;
+				float: left;
+				margin-right: 2px;
+				margin-left: 2px;
+				width: 70px;
+				text-align: center;
+				}
+			#userData .orders .iter > .step[active=true]
+				{
+				color:black;
+				border-color:black;
+				}
+			#userData .orders .iter	
+				{
+				position: absolute;
+				left: 177px;
+				height: 15px;
+				line-height: 22px;				
+				top: 6px;
+				}
+			.row.qr
+				{
+				height: 203px;
+				border: solid 1px silver;
+				border-radius: 4px;
+				margin-bottom: 15px;
+				}
+	
+		#userData .qrhelparrow
+			{
+			width: 0;
+			height: 0;
+			border-top: 60px solid transparent;
+			border-bottom: 60px solid transparent;
+			border-left: 60px solid rgba(0,0,0,.3);
+			position: absolute;
+			bottom: 28px;
+			right: 161px;
+			}
+		#userData .qrhelp
+			{
+			height: 85px;
+			position: absolute;
+			bottom: 28px;
+			width: 130px;
+			right: 221px;
+			color: black;
+			background-color: rgba(0,0,0,.3);
+			padding: 23px;
+			color: white;
+			font-size: 15px;
+			text-align: right;
+			padding-top: 12px;
+			vertical-align: middle;
+			line-height: 19px;
+			}
+		#userData LI .importo
+			{
+			position: absolute;
+			left: 423px;
+			}
+	
+    	
+    </style>
+    <style>
+    	.circle
+    		{
+    		 width: 4em;
+	        height: 4em;
+	        margin: 0;
+	        border: 1px solid rgba(0,0,0,.2);
+	        -webkit-border-radius: 4em;
+	        border-radius: 4em;
+	        display: inline-block;
+	        -webkit-background-size: auto 100%;
+	        background-size: auto 100%;
+	        background-repeat: no-repeat;
+	        background-position: center center;
+	        -webkit-transform: translatez(0);
+	        vertical-align: middle;
+    		}
+    	.content	
+    		{
+    		font-size: 1.1em;
+			width: 50%;
+			position: absolute;
+			text-align: left;
+			right: .8em;
+			min-width: 6em;
+			padding: .4em;
+			overflow: hidden;
+    		}
+    </style>
+</head>
+<body>
+	<form style="" enctype="multipart/form-data" action="http://95.110.224.34:8080/relay-service-web/rest/land/Upload" method="post">	
+		<input id="file" name="file" type="file" accept="image/*" capture="camera"/>
+		
+	</form>
+	<!--form style="" enctype="multipart/form-data" action="http://172.28.4.222:8080/land-web/rest/land/Upload" method="post">	
+		<input id="file" name="file" type="file" accept="image/*" capture="camera"/>
+		
+	</form-->
+	<!--form style="" id="avatarUpload" enctype="multipart/form-data" action="/land-web/rest/land/Upload" method="post">
+		   <input name="file" type="file" multiple/>
+		   <input class="button" type="submit" alt="Upload" value="Upload" />
+		</form-->
+	
+	<div data-role="layout" data-id="layout">
+		<header data-role="header">
+	        <div data-role="navbar">
+	            <!--a id="back-button" class="nav-button" data-align="left" href="#/" data-role="backbutton">Back</a-->
+	            <span data-role="view-title"></span>	            
+	            <!--a data-align="right" data-icon="organize" data-role="button" href="#navbar-grouped">Group</a-->
+	        </div>
+	    </header>
+	    <footer data-role="footer">
+	        <div data-role="tabstrip">
+	            <a data-icon="contacts" href="#profile-view" data-transition="slide:left reverse">Profile</a>
+	            <a data-icon="organize" href="#acquired-view" data-transition="slide:up">Sell</a>
+	            <a data-icon="downloads" href="#around-view" data-transition="slide:down">Around me</a>
+	            <a data-icon="camera" onclick="$('#file').click()">Shot</a>
+	        </div>
+	    </footer>
+	</div>
+	<style>
+		.homebkg
+			{ 
+			background-image: url('img/bck.jpg');
+			background-size: cover;		
+			color : black;
+			position:absolute;
+			top:0;
+			left:0;
+			bottom:0;
+			right:0;
+						
+			-webkit-transition-duration: 2s;
+			background-position: 50%;			
+			}
+		._button
+			{
+			left: 50%;
+			width: 50%;
+			margin-left: -25%;
+			bottom:20%;
+			-webkit-transition-duration: 2s;	
+			}
+		._button > div	
+			{
+			background-color: #278fc6;
+			margin-bottom: 10px;
+			width: 100%;
+			left: 26px;
+			text-align: center;
+			height: 40px;
+			border-radius: 3px;
+			line-height: 40px;
+			color:white;
+			text-decoration: none;
+			margin-top: 10px;
+			border:solid 1px black;
+			}
+	</style>
+	<script>
+		function start()
+			{
+			$(".homebkg").css("-webkit-filter","blur(6px)");
+			$("#login-view .homebkg ._button").css("opacity","0");	
+			$("#community").css("opacity","1");		
+			}
+		function stop()
+			{
+			$(".homebkg").css("-webkit-filter","blur(0px)");
+			$("#login-view .homebkg ._button").css("opacity","1");	
+			$("#community").css("opacity","0");		
+			}
+	</script>
+	<!--Login-->
+	<div data-role="view" data-title="Login" id="login-view" data-model="model" data-stretch="true">
+		
+		<div class="homebkg">
+			<H1>Relay.</H1>
+			<A STYLE="position:absolute;z-index:1000000000" onclick="start()" class="_button"><div>Entra</div></A>	
+		</div>
+		
+		
+		<div id="community" style="opacity:0; -webkit-transition-duration: 2s;-webkit-transition-delay: 1s">	
+			<div class="wall"  style="bottom: 0px;" onclick="stop()">
+				<div id="login" class="sheet" style="display: block; top:100px;">
+				<div class="loading"></div>
+				<form class="box" action="#"  style="background:white;">
+					<div class="loading_wall"></div>
+							
+					<div class="logo" style="background-image: url(http://www.moriana.it/img/logologin.png);"></div>								
+					<div class="row"><label>Mail</label><input type="text" placeholder="Indirizzo mail" data-bind="value:user.mail"></div>
+					<div class="row"><label>Nome</label><input type="text" placeholder="Nome" data-bind="value:user.first_name"></div>
+					<div class="row"><label>Cognome</label><input type="text" placeholder="Cognome" data-bind="value:user.second_name"></div>
+					<!--div class="row"><label>Password</label><input type="password" placeholder="Password" data-bind="value:user.password"></div-->												
+					<!--div class="row" style="display:none"><label>Password</label><input type="submit"></div-->		
+					<a href="#profile-view" class="row button register"><div>ACCEDI</div></a>
+					<!--div class="row p"><a data-bind="click:remember.show">Hai dimenticato la password?</a></div>
+					<div class="row p">oppure</div>
+					<a data-bind="visible:facebook.active" onclick="$m.community.facebook.try()" class="button fb" style="display: none;"><div>Accedi tramite Facebook</div></a>
+					<a class="button qr"><div>Accedi tramite QR</div></a-->		
+					<!--div class="row banda account"><div class="testo">Non Hai un account?<a data-bind="click:register.show"> Iscriviti qui!</a></div></div>		
+					<a href="" class="button error" data-bind="visible:login.error" style="display: none;"><div data-bind="text:login.error"></div></a-->		
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--Profile-->
+	<div data-role="view" data-title="Profile" id="profile-view" data-layout="layout" data-model="model.user">
+		<ul data-role="listview" data-style="inset" data-type="group">
+        <li>
+            Profile
+            <ul>
+            	<li><LABEL><DIV data-bind="background:avatar" class="circle"></DIV>
+            		<DIV class="content" style="top:.5em;"><B style="font-size:1.4em;" data-bind="text:first_name"></B></DIV>
+            		<DIV class="content" style="bottom:.5em;" data-bind="text:second_name"></DIV>            		
+            	</li>
+                <li><LABEL>First name<INPUT TYPE="text" PLACEHOLDER="Marc" data-bind="value:first_name"></LABEL></li>
+                <li><LABEL>Second name<INPUT TYPE="text" PLACEHOLDER="Red" data-bind="value:second_name"></LABEL></li>
+                <li><LABEL>Mail<INPUT TYPE="text" PLACEHOLDER="marc.red@gmail.com" data-bind="value:mail"></LABEL></li>
+            </ul>
+        </li>
+        <li>
+            Stats
+            <ul>
+                <li data-icon="globe"><A HREF="#sale-view" data-transition="slide:left"><span data-bind="text:forSale.list.length"></span> for Sale</A></li>
+                <li data-icon="globe"><A HREF="#acquired-view" data-transition="slide:left"><span data-bind="text:acquired.list.length"></span> Sold</A></li>
+                <li data-icon="toprated">4 acquired</li>
+            </ul>
+        </li>
+        <li>
+            Test
+            <ul>
+                <li data-icon="globe"><A HREF="#login-view" data-transition="slide:left">Login</A></li>                
+            </ul>
+        </li>          
+       </ul>
+	</div>
+	
+	<!--Lista vendite-->
+	 <div data-role="view" data-title="Lista" id="sale-view" data-layout="layout" data-model="model" data-transition="slide:left reverse">
+	 	
+	 	<ul data-role="listview" data-style="inset" data-type="group">
+	       	 <DIV data-bind="source:user.forSale.list" data-template="forSaleItem2"></DIV>
+	    </ul>
+	     <script id="forSaleItem2" type="text/kendo">	    	
+	     	<li>	     		
+	    		<div class="km-group-title"><div class="km-text"></div></div>     
+	            <ul class="km-list">            	
+	                <li data-bind="text:date"></li>
+	                <li data-bind="text:name"></li>                
+	                <li><img style="width:100%" data-bind="attr:{src:img}"/></li-->
+	                <li><a class="button selected-button" data-role="button" data-bind="click:remove">Remove</a></li-->
+	            </ul>
+			</li>
+	    </script>		    
+   </div>
+	
+	
+	<!--NewItem-->
+    <div data-role="view" data-title="Lista" id="newItem-view" data-layout="layout" data-model="model.user.forSale.add" data-transition="slide:left reverse">
+    	<header data-role="header">
+	        <div data-role="navbar">
+	            <!--a id="back-button" class="nav-button" data-align="left" href="#/" data-role="backbutton">Back</a-->
+	            <span data-role="view-title"></span>	            
+	            <a data-align="right" data-icon="organize" data-role="button" data-bind="click:save">Save</a>
+	        </div>
+	    </header>
+    	<ul data-role="listview" data-style="inset" data-type="group">    		
+			<li>
+				<div class="km-group-title"><div class="km-text"></div></div>            
+	            <ul class="km-list">
+	            	<!--li><LABEL><DIV data-bind="background:img" class="circle"></DIV>
+	            		<DIV class="content" style="top:.5em;" data-bind="text:owner.name"></DIV> 
+	            		<DIV class="content" style="bottom:.5em;"><span style="font-size:.8em;color:gray;" data-bind="text:date"></span></DIV>           		
+	            	</li-->	                          
+	            	<li><label>Nome<input type="text" placeholder="name" data-bind="value:name"/></label></li>
+	                <li><img style="width:100%" data-bind="attr:{src:img}"/></li>	                
+	            </ul>
+        	</li>	
+	        
+    	</ul>
+    	       
+	    <ul data-role="actionsheet" id="inboxActions" data-open="onOpen" data-popup='{"direction": "left"}'>
+	        <li class="km-actionsheet-title">Monday Meeting:</li>
+	        <li><a href="#" data-action="reply">Reply</a></li>
+	        <li><a href="#" data-action="replyAll">Reply All</a></li>
+	        <li><a href="#" data-action="archive">Archive</a></li>
+	    </ul>    
+	</div>
+	
+	<!--Acquired-->
+    <div data-role="view" data-title="Lista" id="acquired-view" data-layout="layout" data-model="model" data-transition="slide:left reverse">
+    	<ul data-role="listview" data-style="inset" data-type="group">
+    		<div data-bind="source:user.acquired.list" data-template="acquiredItem">
+    			<script type="text/kendo" id="acquiredItem">
+    			<li>
+    				<div class="km-group-title"><div class="km-text"></div></div>            
+		            <ul class="km-list">
+		            	<li><LABEL><DIV data-bind="background:owner.avatar" class="circle"></DIV>
+		            		<DIV class="content" style="top:.5em;" data-bind="text:owner.name"></DIV> 
+		            		<DIV class="content" style="bottom:.5em;"><span style="font-size:.8em;color:gray;" data-bind="text:date"></span></DIV>           		
+		            	</li>	                          
+		                <li><img style="width:100%" data-bind="attr:{src:img}"/></li>
+		                <!--li><a class="button selected-button" data-role="button" href="\#">Mi Serve</a></li-->
+		            </ul>
+	        	</li>	
+	        	</script>
+    		</div>
+    	</ul>
+    	       
+	    <ul data-role="actionsheet" id="inboxActions" data-open="onOpen" data-popup='{"direction": "left"}'>
+	        <li class="km-actionsheet-title">Monday Meeting:</li>
+	        <li><a href="#" data-action="reply">Reply</a></li>
+	        <li><a href="#" data-action="replyAll">Reply All</a></li>
+	        <li><a href="#" data-action="archive">Archive</a></li>
+	    </ul>    
+	</div>
+	
+	<!--Around-->
+    <div data-role="view" data-title="Lista" id="around-view" data-layout="layout" data-model="model" data-transition="slide:left reverse">
+    	<ul data-role="listview" data-style="inset" data-type="group">
+    		<div data-bind="source:user.aroundMe.list" data-template="aroundItem">
+    			<script type="text/kendo" id="aroundItem">
+    			<li>
+    				<div class="km-group-title"><div class="km-text"></div></div>            
+		            <ul class="km-list">
+		            	<li><LABEL><DIV data-bind="background:owner.avatar" class="circle"></DIV>
+		            		<DIV class="content" style="top:.5em;" data-bind="text:owner.name"></DIV> 
+		            		<DIV class="content" style="bottom:.5em;"><span style="font-size:.8em;color:gray;" data-bind="text:date"></span></DIV>           		
+		            	</li>	                          
+		                <li><img style="width:100%" data-bind="attr:{src:img}"/></li>
+		                <li><a class="button selected-button" data-role="button" data-bind="click:add">Mi Serve</a></li>
+		            </ul>
+	        	</li>	
+	        	</script>
+    		</div>
+    	</ul>
+    	       
+	    <ul data-role="actionsheet" id="inboxActions" data-open="onOpen" data-popup='{"direction": "left"}'>
+	        <li class="km-actionsheet-title">Monday Meeting:</li>
+	        <li><a href="#" data-action="reply">Reply</a></li>
+	        <li><a href="#" data-action="replyAll">Reply All</a></li>
+	        <li><a href="#" data-action="archive">Archive</a></li>
+	    </ul>    
+	</div>
+
+
+
+<script>
+	
+
+	$(function(){})
+	var model =kendo.observable( 
+		{
+		user:
+			{
+			mail:"valerioartusi@gmail.com",
+			avatar:"https://media.licdn.com/mpr/mpr/wc_200_200/p/2/005/013/1f9/3ca2320.jpg",
+			first_name:"valerio",
+			second_name:"artusi",
+			show:	function()
+				{
+				app.navigate("profile-view");
+				},
+			save:	function(){},
+			logout:	function(){},
+			changePsw:function(){},					
+			position:
+				{
+				lat:8,
+				lng:8,
+				follow:function()
+					{
+					var act =this;
+					if (navigator.geolocation) 
+        				navigator.geolocation.watchPosition(function(position)
+        					{
+        					act.set("lat",position.coords.latitude);
+        					act.set("lng",position.coords.longitude);
+        					});    				
+					},
+				refresh:function()
+					{						
+					var act =this;
+					
+					var time = setTimeout(function(){alert("per favore accendi il servizio GPS")},2000);
+					if (navigator.geolocation) 
+        				navigator.geolocation.getCurrentPosition(function(position)
+        					{
+        					clearTimeout(time);
+        						
+        					act.set("lat",position.coords.latitude);
+        					act.set("lng",position.coords.longitude);
+        					model.user.aroundMe.load();
+        					});    					
+					}
+				},
+			acquired:
+				{
+				list:
+					[
+						{
+						id:"334",
+						owner:
+							{
+							id:"",
+							name:"Valerio Artusi",
+							avatar:"https://media.licdn.com/mpr/mpr/wc_200_200/p/2/005/013/1f9/3ca2320.jpg"
+							},
+						name:"Prova",
+						date:"06/07/2014",
+						img:"http://www.greenews.info/wp-content/uploads/2010/07/paesaggio-d.carradori.jpg",
+						cat:["","",""],
+						position:{lat:8,lng:8}						
+						}
+					]
+				},
+			aroundMe:
+				{
+				load:function()
+					{
+					var act = this;
+					$.get("http://95.110.224.34:8080/relay-service-web/rest/land",
+						//{lat:model.user.position.lat,lng:model.user.position.lng},
+						function(data)
+						{
+						var result=[];						
+						for(var i in data.entities)
+							{
+							var val = data.entities[i].attributes;
+							var user = val.user;
+							for(var m in val.forSales)
+								{	
+								var sale = val.forSales[m];
+								result.push(
+									{									
+									owner:
+										{
+										id		:user.mail,
+										name	:user.mail,
+										avatar	:user.avatar							
+										},
+									id:			sale.id,
+									name:		sale.name,
+									date:		"",
+									img:		sale.img,
+									cat:		[],
+									position:
+										{
+										lat:sale.position.lat,
+										lng:sale.position.lng
+										}
+									})
+								}
+							}
+						act.set("list",result);
+						})
+					},
+				list:
+					[
+						{
+						id:"334",
+						owner:
+							{
+							id:"",
+							name:"Valerio Artusi",
+							avatar:"https://media.licdn.com/mpr/mpr/wc_200_200/p/2/005/013/1f9/3ca2320.jpg"
+							},
+						name:"Prova",
+						date:"06/07/2014",
+						img:"http://www.greenews.info/wp-content/uploads/2010/07/paesaggio-d.carradori.jpg",
+						cat:["","",""],
+						position:{lat:8,lng:8},			
+						add:function()
+							{							
+							var json = this.toJSON();
+							this.parent().parent().parent().acquired.list.push(json);
+							
+							app.navigate("acquired-view");
+							}			
+						},
+						{
+						id:"334",
+						owner:
+							{
+							id:"",
+							name:"Max Regis",
+							avatar:"http://www.sfondidesktopgratis.net/var/albums/Paesaggi/paesaggio-tropicale.jpg?m=1361623218"
+							},
+						name:"Prova",
+						date:"06/07/2014",
+						img:"http://www.sfondidesktopgratis.net/var/albums/Paesaggi/paesaggio-tropicale.jpg?m=1361623218",
+						cat:["","",""],
+						position:{lat:8,lng:8},			
+						add:function()
+							{			
+							var json = this.toJSON();				
+							this.parent().parent().parent().acquired.list.push(json);
+							app.navigate("acquired-view");
+							}									
+						}
+						
+					]
+				},
+			forSale:
+				{
+				add:
+					{
+					imgId:"",
+					imageType:"",
+					img:"",
+					name:"",
+					cancel:function()
+						{
+						this.set("name","");
+						},
+					save:function()
+						{			
+						var date = new Date();								
+						this.parent().parent().forSale.list.push(
+							{
+							name:this.name,
+							img:this.img,
+							date:date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()
+							});
+						app.navigate("sale-view");
+						//this.set("name","");
+						
+						/*SAVE*/
+						var save = 	{
+									user:
+										{
+										mail:model.user.mail,
+										firstName:model.user.first_name,
+										secondName:model.user.second_name,
+										avatar:model.user.avatar
+										},
+									forSales:null,
+									forSale:
+										{
+										stream: null,
+									    id: model.user.forSale.add.imgId,
+									    name: model.user.forSale.add.name,
+									    imageType: model.user.forSale.add.imgType,
+									    img: null,
+									    description: "test",
+									    tags: null,
+									    position: 
+									    	{
+									      	lat: model.user.position.lat,
+									      	lng: model.user.position.lng
+									    	}
+										}
+									}
+							debugger;																
+						$.ajax(
+							{
+							url:"http://95.110.224.34:8080/relay-service-web/rest/land",
+							type:"POST",
+							data:JSON.stringify(save),		
+							/*			
+							beforeSend: function(xhr) 
+								{
+						        xhr.setRequestHeader("Accept", "application/json");
+						        xhr.setRequestHeader("Content-Type", "application/json");
+						        },*/
+						    //dataType: "json",
+						    //processData: false,
+						    //contentType: 'application/json',
+						    processData: false,
+						    contentType: 'application/json',
+						    success:function(data)
+						    	{
+						    	debugger;
+						    	}
+							})
+						
+						},
+					show:function()
+						{
+						$('#file').click();
+						}					
+					},				
+				list:
+					[
+						{
+						id:"334",
+						name:"Prova",
+						date:"06/07/2014",
+						img:"http://www.greenews.info/wp-content/uploads/2010/07/paesaggio-d.carradori.jpg",
+						cat:["","",""],
+						position:{lat:8,lng:8},
+						remove:function()	
+							{
+							var list = this.parent();							
+							for(var i=0;i<list.length;i++)
+								if(list[i]==this)									
+									return list.splice(i,1);
+									
+							},
+						save:function(){}
+						},
+						{
+						id:"334",
+						name:"Prova2",
+						date:"09/07/2014",
+						img:"http://www.boorp.com/sfondi_gratis_desktop_pc/sfondi_gratis/sfondi_paesaggi_mare_montagna/paesaggio_verde_giallo.jpg",
+						cat:["","",""],
+						position:{lat:8,lng:8},
+						remove:function()
+							{
+							var list = this.parent();							
+							for(var i=0;i<list.length;i++)
+								if(list[i]==this)									
+									return list.splice(i,1);
+							},
+						save:function(){}						
+						}
+					]
+				}
+			}		
+		});
+
+    
+
+</script>
+
+
+
+<script>
+    var app = new kendo.mobile.Application(document.body,{
+        platform: "ios7"
+    });
+	model.user.position.refresh();
+    //model.user.aroundMe.load();
+    $("input[type=file]").bind("change",function(e)
+			{
+			var uid = Math.random();
+					
+			$(e.target.files).each(function()
+				{			
+				var file = this;		
+				var reader = new FileReader();			
+					reader.onload = function(event)
+						{
+						model.user.forSale.add.set("img",event.target.result);																																									
+						};				
+				reader.readAsDataURL(file); 
+				app.navigate("newItem-view");
+				});		
+					
+			$(this).parents("form").ajaxSubmit(
+				{				
+				success:function(data)
+					{
+					model.user.forSale.add.set("imgId",data.attributes.forSale.id);
+					model.user.forSale.add.set("imgType",data.attributes.forSale.imageType);					
+					model.user.forSale.add.set("img","http://95.110.224.34/relay/img/item/"+data.attributes.forSale.id+"."+data.attributes.forSale.imageType);
+					}
+				});			 
+			});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
